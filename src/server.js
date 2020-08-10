@@ -25,6 +25,32 @@ const proffys = [
     time_from: [720],
     time_to: [1220],
   },
+  {
+    name: 'Rayanne B. Lima',
+    avatar:
+      'https://avatars1.githubusercontent.com/u/28320844?s=400&u=4ac13a0e65f03d477029f6661ececfee56c320ef&v=4',
+    whatsapp: '321654987',
+    bio:
+      'Entusiasta das melhores tecnologias de química avançada. Apaixonado por explodir coisas em laboratório e por mudar a vida das pessoas através de experiências. Mais de 200.000 pessoas já passaram por umas das minhas explosões.',
+    subject: 'Química',
+    cost: '20',
+    weekday: [2],
+    time_from: [720],
+    time_to: [1220],
+  },
+];
+
+const subjects = [
+  'Artes',
+  'Biologia',
+  'Ciências',
+  'Educação Física',
+  'Física',
+  'Geografia',
+  'História',
+  'Matemática',
+  'Português',
+  'Química',
 ];
 
 function pageLanding(req, res) {
@@ -32,7 +58,8 @@ function pageLanding(req, res) {
 }
 
 function pageStudy(req, res) {
-  return res.render('study.html', {proffys });
+  const filters = req.query;
+  return res.render('study.html', { proffys, filters, subjects });
 }
 
 function pageGiveClasses(req, res) {
