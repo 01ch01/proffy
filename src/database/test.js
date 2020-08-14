@@ -54,4 +54,10 @@ Database.then(async (db) => {
    * Well, time_from (8am) must be <= than the user schedule
    * Likewise, time_to (6pm) must be > than the user schedule
    */
+
+  const selectClassesSchedules = await db.all(`
+    
+    
+   
+   `);
 });
