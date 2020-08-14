@@ -34,11 +34,11 @@ module.exports = async function (
 
   const class_id = insertedClass.lastID;
 
-  // insert data on class_schedule table
+  // insert data on class_schedules table
   const insertedAllClassScheduleValues = classScheduleValues.map(
     (classScheduleValue) => {
       return db.run(`
-    INSERT INTO class_schedule(
+    INSERT INTO class_schedules(
       class_id,
       weekday,
       time_from,
@@ -53,6 +53,6 @@ module.exports = async function (
     }
   );
 
-  // run all 'db.run()' from class_schedule
+  // run all 'db.run()' from class_schedules
   await Promise.all(insertedAllClassScheduleValues);
 };
