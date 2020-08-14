@@ -16,7 +16,7 @@ Database.then(async (db) => {
 
   classValue = {
     // proffy_id come through the own database
-    subject: 'Química',
+    subject: 1,
     cost: '20',
   };
 
@@ -47,7 +47,7 @@ Database.then(async (db) => {
     JOIN classes ON (classes.proffy_id = proffys.id)
     WHERE classes.proffy_id = 1;
   `);
-  console.log(selectClassesAndProffys);
+  // console.log(selectClassesAndProffys);
 
   /** Business Rule Logic
    * E.g.: The proffy is avaliable from 8am to 6pm
@@ -58,8 +58,11 @@ Database.then(async (db) => {
   const selectClassesSchedules = await db.all(`
     SELECT class_schedules.*
     FROM class_schedules
-    WHERE class_schedules.class_id = 1
-  `);
+    WHERE class_schedules.class_id = '1'
+    AND class_schedules.weekday = '0'
+    AND class_schedules.time_from <= '520'
+    AND class_schedules.time_to > '520'
+    `);
 
   console.log(selectClassesSchedules);
 });
