@@ -11,7 +11,7 @@ function pageLanding(req, res) {
   return res.render('index.html');
 }
 
-function pageStudy(req, res) {
+async function pageStudy(req, res) {
   const filters = req.query;
 
   if (!filters.subject || !filters.weekday || !filters.time) {
@@ -37,7 +37,10 @@ function pageStudy(req, res) {
   `;
 
   try {
-    
+    const db = await Database;
+    const proffys = await db.all(query);
+
+    return res.render('study.html', { proffys, subjects, filters, weekdays });
   } catch (error) {
     console.log(error);
   }
