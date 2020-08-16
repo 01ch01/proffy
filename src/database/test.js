@@ -54,14 +54,13 @@ Database.then(async (db) => {
    * Well, time_from (8am) must be <= than the user schedule
    * Likewise, time_to (6pm) must be > than the user schedule
    */
-
   const selectClassesSchedules = await db.all(`
     SELECT class_schedules.*
     FROM class_schedules
-    WHERE class_schedules.class_id = '1'
-    AND class_schedules.weekday = '0'
-    AND class_schedules.time_from <= '520'
-    AND class_schedules.time_to > '520'
+    WHERE class_schedules.class_id = 1
+    AND class_schedules.weekday = 0
+    AND class_schedules.time_from <= 520
+    AND class_schedules.time_to > 520
     `);
 
   console.log(selectClassesSchedules);

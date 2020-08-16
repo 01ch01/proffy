@@ -17,7 +17,6 @@ async function pageStudy(req, res) {
   if (!filters.subject || !filters.weekday || !filters.time) {
     return res.render('study.html', { filters, subjects, weekdays });
   }
-  console.log('There is no empty inputs');
 
   const timeToMinutes = convertHoursToMinutes(filters.time);
 
@@ -33,7 +32,7 @@ async function pageStudy(req, res) {
       AND class_schedules.time_from <= ${timeToMinutes}
       AND class_schedules.time_to > ${timeToMinutes}
     )
-    AND classes.subject = '${filters.subject}
+    AND classes.subject = ${filters.subject}
   `;
 
   try {
@@ -54,7 +53,7 @@ function pageGiveClasses(req, res) {
   };
 
   // add data to proffys array
-  if (!isEmpty()) {
+  if (!isEmpty) {
     // convert subject number in subject name
     data.subject = getSubject(data.subject);
 
