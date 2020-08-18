@@ -1,3 +1,4 @@
+// import database from db.js file
 const Database = require('./database/db');
 
 const {
@@ -7,10 +8,12 @@ const {
   convertHoursToMinutes,
 } = require('./utils/format');
 
+// return to home
 function pageLanding(req, res) {
   return res.render('index.html');
 }
 
+// async bc database takes time
 async function pageStudy(req, res) {
   const filters = req.query;
 
@@ -39,6 +42,10 @@ async function pageStudy(req, res) {
     const db = await Database;
     const proffys = await db.all(query);
 
+    proffys.map((proffy) => {
+      proffy.subject = getSubject(proffy.subject);
+    });
+
     return res.render('study.html', { proffys, subjects, filters, weekdays });
   } catch (error) {
     console.log(error);
@@ -46,27 +53,49 @@ async function pageStudy(req, res) {
 }
 
 function pageGiveClasses(req, res) {
-  const data = req.query;
+  return res.render('give-classes.html', { subjects, weekdays });
+}
 
-  const isEmpty = () => {
-    return Object.keys(data).length == 0;
+async function saveClasses(req, res) {
+  const createProffy = require('./database/createProffy');
+
+  const proffyValue = {
+    name: req.body.name,
+    avatar: req.body.avatar,
+    whatsapp: req.body.whatsapp,
+    bio: req.body.bio,
   };
 
-  // add data to proffys array
-  if (!isEmpty) {
-    // convert subject number in subject name
-    data.subject = getSubject(data.subject);
+  const classValue = {
+    subject: req.body.subject,
+    cost: req.body.cost,
+  };
 
-    proffys.push(data);
-    return res.redirect('/study');
+  const classScheduleValues = req.body.weekday.map((weekday, index) => {
+    return {
+      weekday,
+      time_from: convertHoursToMinutes(req.body.time_from[index]),
+      time_to: convertHoursToMinutes(req.body.time_to[index]),
+    };
+  });
+
+  try {
+    const db = await Database;
+    await createProffy(db, { proffyValue, classValue, classScheduleValues });
+
+    let queryString = '?subject=' + req.body.subject;
+    queryString += '&weekday' + req.body.weekday[0];
+    queryString += '&time' + req.body.time_from[0];
+
+    return res.redirect('/study' + queryString);
+  } catch (error) {
+    console.log(error);
   }
-
-  // if there is no data, show page
-  return res.render('give-classes.html', { subjects, weekdays });
 }
 
 module.exports = {
   pageLanding,
   pageStudy,
   pageGiveClasses,
+  saveClasses,
 };

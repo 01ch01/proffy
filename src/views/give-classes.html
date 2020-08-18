@@ -34,7 +34,7 @@
       </header>
 
       <main>
-        <form action="" id="create-class">
+        <form action="/save-classes" id="create-class" method="POST">
           <fieldset>
             <legend>Seus dados</legend>
             <div class="input-block">
@@ -69,9 +69,9 @@
               <select name="subject" id="subject" required>
                 <option value="">Selecione uma opção</option>
                 {%for subject in subjects %}
-                  <option value="{{loop.index}}">
-                    {{subject}}
-                  </option>
+                <option value="{{loop.index}}">
+                  {{subject}}
+                </option>
                 {%endfor%}
               </select>
             </div>

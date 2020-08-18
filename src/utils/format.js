@@ -23,7 +23,6 @@ const weekdays = [
 
 function getSubject(subjectNumber) {
   const pos = +subjectNumber - 1;
-  console.log("Posição: ", pos);
   return subjects[pos];
 }
 
